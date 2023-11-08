@@ -1,20 +1,11 @@
-name: Deliver container
+version: "3.9"
+services:
+ useritem-api-service:
+  image: miverboven/python-db-test
+  ports:
+    - "8000:8000"
+  volumes:
+    - sqlite_useritems_volume:/code/sqlitedb
 
-on: push
-
-jobs:
-  delivery:
-    runs-on: ubuntu-latest
-    name: Deliver container
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v1
-
-      - name: Docker Login
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/python-api-test:latest .
-
-      - name: Upload container to Docker Hub with Push
-        run: docker push ${{ secrets.DOCKER_USER }}/python-api-test:latest
+volumes:
+  sqlite_useritems_volume:
