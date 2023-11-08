@@ -21,39 +21,47 @@ def get_db():
         db.close()
 
 
-## POST NAAR /users
-@app.post("/users", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=user.email)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db, user=user)
+## Nieuwe endpoints voor festivals
+## POST NAAR /festivals
+@app.post("/festivals", response_model=schemas.Festival)
+def create_festival(festival: schemas.FestivalCreate, db: Session = Depends(get_db)):
+    return crud.create_festival(db, festival=festival)
+
+## GET /festivals/?skip=&limit=
+@app.get("/festivals", response_model=list[schemas.Festival])
+def read_festivals(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    festivals = crud.get_festivals(db, skip=skip, limit=limit)
+    return festivals
+
+## GET /festivals/{festival_id}
+@app.get("/festivals/{festival_id}", response_model=schemas.Festival)
+def read_festival(festival_id: int, db: Session = Depends(get_db)):
+    festival = crud.get_festival(db, festival_id=festival_id)
+    if festival is None:
+        raise HTTPException(status_code=404, detail="Festival not found")
+    return festival
+
+## Nieuwe endpoints voor landen
+## POST NAAR /landen
+@app.post("/landen", response_model=schemas.Land)
+def create_land(land: schemas.LandCreate, db: Session = Depends(get_db)):
+    return crud.create_land(db, land=land)
+
+## GET /landen/?skip=&limit=
+@app.get("/landen", response_model=list[schemas.Land])
+def read_landen(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    landen = crud.get_landen(db, skip=skip, limit=limit)
+    return landen
+
+## GET /landen/{land_id}
+@app.get("/landen/{land_id}", response_model=schemas.Land)
+def read_land(land_id: int, db: Session = Depends(get_db)):
+    land = crud.get_land(db, land_id=land_id)
+    if land is None:
+        raise HTTPException(status_code=404, detail="Land not found")
+    return land
 
 
-## GET /users/?skip=&limit=
-@app.get("/users", response_model=list[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db, skip=skip, limit=limit)
-    return users
 
 
-## GET /users/{user_id}
-@app.get("/users/{user_id}", response_model=schemas.User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db, user_id=user_id)
-    if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_user
 
-
-## GET /items/?skip=&limit=
-@app.get("/items", response_model=list[schemas.Item])
-def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = crud.get_items(db, skip=skip, limit=limit)
-    return items
-
-
-## POST /items
-@app.post("/items", response_model=schemas.Item)
-def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db)):
-    return crud.create_item(db, item=item)

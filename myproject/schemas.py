@@ -1,8 +1,6 @@
 from datetime import date
-
 from pydantic import BaseModel
-
-from typing import List
+from typing import List, Optional
 
 
 class FestivalBase(BaseModel):
@@ -11,12 +9,15 @@ class FestivalBase(BaseModel):
     start_datum: date
     eind_datum: date
 
+
 class FestivalCreate(FestivalBase):
-    pass
+    land_id: Optional[int] = None
+
 
 class Festival(FestivalBase):
     id: int
-    land_id: int
+    land_id: Optional[int] = None
+
 
     class Config:
         orm_mode = True
@@ -28,37 +29,16 @@ class LandCreate(LandBase):
     pass
 
 class Land(LandBase):
-    id: int
+    id: Optional[int]
     festivals: List[Festival] = []
 
     class Config:
         orm_mode = True
 
-class ItemBase(BaseModel):
-    title: str
-    description: str
 
-class ItemCreate(ItemBase):
-    pass
 
-class Item(ItemBase):
-    id: int
-    owner_id: int
 
-    class Config:
-        orm_mode = True
 
-class UserBase(BaseModel):
-    email: str
 
-class UserCreate(UserBase):
-    password: str
 
-class User(UserBase):
-    id: int
-    is_active: bool
-    items: List[Item] = []
-
-    class Config:
-        orm_mode = True
 

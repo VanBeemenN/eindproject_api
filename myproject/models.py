@@ -13,7 +13,6 @@ class Festival(Base):
     start_datum = Column(Date)
     eind_datum = Column(Date)
     land_id = Column(Integer, ForeignKey("landen.id"))
-
     land = relationship("Land", back_populates="festivals")
 
 class Land(Base):
