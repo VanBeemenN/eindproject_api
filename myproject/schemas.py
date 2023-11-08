@@ -1,7 +1,9 @@
+from datetime import date
+
 from pydantic import BaseModel
 
 from typing import List
-from datetime import date
+
 
 class FestivalBase(BaseModel):
     naam: str

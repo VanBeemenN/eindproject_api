@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
-from models import Festival, Land
-from schemas import FestivalCreate, LandCreate
+
+from myproject.models import Festival
+from myproject.schemas import FestivalCreate, LandCreate, Land
 
 
 def create_festival(db: Session, festival: FestivalCreate):
