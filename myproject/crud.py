@@ -1,35 +1,35 @@
 from sqlalchemy.orm import Session
-
-import models
-import schemas
-
-
-def get_user(db: Session, user_id:int):
-    return db.query(models.User).filter(models.User.id==user_id).first()
-
-def get_user_by_email(db: Session, email:str):
-    return db.query(models.User).filter(models.User.email==email).first()
+from models import Festival, Land
+from schemas import FestivalCreate, LandCreate
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
-
-
-def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
-    db_user = models.User(email=user.email, hashed_password=fake_hashed_password)
-    db.add(db_user)
+def create_festival(db: Session, festival: FestivalCreate):
+    db_festival = Festival(**festival.dict())
+    db.add(db_festival)
     db.commit()
-    db.refresh(db_user)
-    return db_user
-
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
+    db.refresh(db_festival)
+    return db_festival
 
 
-def create_item(db: Session, item: schemas.ItemCreate, user_id = int):
-    db_item = models.Item(**item.dict(),owner_id = user_id)
-    db.add(db_item)
+def get_festivals(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(Festival).offset(skip).limit(limit).all()
+
+
+def get_festival(db: Session, festival_id: int):
+    return db.query(Festival).filter(Festival.id == festival_id).first()
+
+
+def create_land(db: Session, land: LandCreate):
+    db_land = Land(**land.dict())
+    db.add(db_land)
     db.commit()
-    db.refresh(db_item)
-    return db_item
+    db.refresh(db_land)
+    return db_land
+
+
+def get_landen(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(Land).offset(skip).limit(limit).all()
+
+
+def get_land(db: Session, land_id: int):
+    return db.query(Land).filter(Land.id == land_id).first()

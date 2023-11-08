@@ -1,24 +1,26 @@
+from sqlite3 import Date
+
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
 
-class User(Base):
-    __tablename__= "users"
+class Land(Base):
+    __tablename__ = "landen"
 
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    is_active = Column(Boolean, default=True)
+    naam = Column(String, unique=True, index=True)
 
-    items = relationship("Item", back_populates="owner")
+    festivals = relationship("Festival", back_populates="land")
 
-class Item(Base):
-    __tablename__= "items"
+class Festival(Base):
+    __tablename__ = "festivals"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    naam = Column(String, index=True)
+    locatie = Column(String)
+    start_datum = Column(Date)
+    eind_datum = Column(Date)
+    land_id = Column(Integer, ForeignKey("landen.id"))
 
-    owner = relationship("User", back_populates="items")
+    land = relationship("Land", back_populates="festivals")

@@ -1,30 +1,62 @@
 from pydantic import BaseModel
 
+from typing import List
+from datetime import date
+
+class FestivalBase(BaseModel):
+    naam: str
+    locatie: str
+    start_datum: date
+    eind_datum: date
+
+class FestivalCreate(FestivalBase):
+    pass
+
+class Festival(FestivalBase):
+    id: int
+    land_id: int
+
+    class Config:
+        orm_mode = True
+
+class LandBase(BaseModel):
+    naam: str
+
+class LandCreate(LandBase):
+    pass
+
+class Land(LandBase):
+    id: int
+    festivals: List[Festival] = []
+
+    class Config:
+        orm_mode = True
 
 class ItemBase(BaseModel):
     title: str
     description: str
 
-class Item(ItemBase): ## ITEM OUT
+class ItemCreate(ItemBase):
+    pass
+
+class Item(ItemBase):
     id: int
     owner_id: int
 
     class Config:
         orm_mode = True
 
-class ItemCreate(ItemBase): ## ITEM IN
-    pass
-
 class UserBase(BaseModel):
     email: str
 
-class User(UserBase): ## USER OUT
+class UserCreate(UserBase):
+    password: str
+
+class User(UserBase):
     id: int
     is_active: bool
-    items: list[Item] = []
+    items: List[Item] = []
 
     class Config:
         orm_mode = True
 
-class UserCreate(UserBase): ## USER IN
-    password: str
