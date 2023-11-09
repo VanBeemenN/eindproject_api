@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-
 from myproject.models import Festival
-from myproject.schemas import FestivalCreate, LandCreate, Land
+from myproject.models import Land
+from myproject.schemas import FestivalCreate, LandCreate
 
 
 def create_festival(db: Session, festival: FestivalCreate):
@@ -10,6 +10,16 @@ def create_festival(db: Session, festival: FestivalCreate):
     db.commit()
     db.refresh(db_festival)
     return db_festival
+
+
+
+def delete_festival(db: Session, festival_id: int):
+    festival = db.query(Festival).filter(Festival.id == festival_id).first()
+    if festival:
+        db.delete(festival)
+        db.commit()
+        return True  # Indicate that the festival was deleted
+    return False  # Indicate that the festival was not found
 
 
 def get_festivals(db: Session, skip: int = 0, limit: int = 100):

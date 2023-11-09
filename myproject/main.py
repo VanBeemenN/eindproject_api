@@ -1,9 +1,11 @@
 import os
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-
 from myproject import crud, models, schemas
 from myproject.database import SessionLocal, engine
+from myproject import crud
+
+
 
 if not os.path.exists('./sqlitedb'):
     os.mkdir('./sqlitedb')
@@ -40,6 +42,13 @@ def read_festival(festival_id: int, db: Session = Depends(get_db)):
     if festival is None:
         raise HTTPException(status_code=404, detail="Festival not found")
     return festival
+
+@app.delete("/festivals/{festival_id}", response_model=bool)
+def delete_festival(festival_id: int, db: Session = Depends(get_db)):
+    result = crud.delete_festival(db, festival_id)
+    if result:
+        return True  # Festival was deleted
+    raise HTTPException(status_code=404, detail="Festival not found")
 
 ## Nieuwe endpoints voor landen
 ## POST NAAR /landen

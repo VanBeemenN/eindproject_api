@@ -11,34 +11,27 @@ class FestivalBase(BaseModel):
 
 
 class FestivalCreate(FestivalBase):
-    land_id: Optional[int] = None
+    land_id: int
 
 
 class Festival(FestivalBase):
     id: int
     land_id: Optional[int] = None
 
-
     class Config:
         orm_mode = True
+
 
 class LandBase(BaseModel):
     naam: str
 
+
 class LandCreate(LandBase):
     pass
 
+
 class Land(LandBase):
-    id: Optional[int]
     festivals: List[Festival] = []
 
     class Config:
         orm_mode = True
-
-
-
-
-
-
-
-
