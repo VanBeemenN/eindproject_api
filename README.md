@@ -1,8 +1,7 @@
-**APIPROJECT - festivals en landen**
+# APIPROJECT - festivals en landen
 
 Onderwerp: als onderwerp heb ik gekozen om verschillende festivals in te kunnen geven en hier dan ook de landen aan te koppelen waar ze plaatsvinden.
-
-**API**
+# API
 
 - get_festivals: heeft een overzicht van alle ingevoerde festivals
 - post_festivals: hier kan je een festival zelf creëren met alle nodige informatie
@@ -13,8 +12,7 @@ Onderwerp: als onderwerp heb ik gekozen om verschillende festivals in te kunnen 
 - get_landen_land_id: geeft de informatie van een specifiek land
 
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/76122d40-1a18-4fea-be4e-f5d7711d07d0)
-
-**Screenshots**
+# Screenshots
 
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/5181c676-b269-4172-9bde-e96c34a344d9)
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/5094ea8b-752b-46d8-9e1c-e58d8f16b539)
@@ -36,39 +34,60 @@ Onderwerp: als onderwerp heb ik gekozen om verschillende festivals in te kunnen 
 
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/2d227d94-bab9-4d81-ad9d-9584a4a2abb3)
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/de0a7c05-73eb-426c-af57-eabc73ade8b0)
-
-**Postman**
+# Postman
 get_festivals:
+
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/60f2329a-46e0-43ad-b085-3b055ac47fbb)
 
 post_festivals: 
+
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/1829ab71-5cb3-409b-b59a-95845ac055c1)
 
 
 get_festivals_festival_id:
+
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/18de0f98-b791-429b-b4b9-a94997b90162)
 
 
 delete_festivals_festival_id:
+
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/426b46f3-6c8f-4434-8b0d-4f56f2a7429e)
 
 
 get_landen:
+
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/defee757-7574-4cc9-9116-ac28c72b5e28)
 
 
 post_landen:
+
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/01d83e54-132e-4fe4-bce5-89c58a3a94a1)
 
 
 get_landen_land_id:
+
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/42494ab3-4c6d-4209-88ad-9854c0d24fd0)
 
+# Docker & docker-compose
+Dockerfile:
 
-**Okteto**
+![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/c6961876-225d-45f9-80e2-179664727151)
+
+Docker-compose: 
+
+![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/65f76343-c438-4887-810c-d5d540383be0)
+
+# Okteto
 ![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/b6b4f225-6439-4e3c-8297-cfd77fcb7fc5)
 
 https://cloud.okteto.com/spaces/vanbeemenn
+
+# Security
+HTTP basic security: vragen voor een inloggegever
+
+![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/21c98ef3-1433-4216-b1f5-c0262310d577)
+
+![image](https://github.com/VanBeemenN/APIPROJECT/assets/91262450/b2fd5674-2ad9-40d2-8a81-a993d4b61846)
 
 
 
