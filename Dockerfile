@@ -1,7 +1,7 @@
-FROM python:3.10.0-alpine
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 WORKDIR /code
 EXPOSE 8000
-COPY ./requirements.txt /code/requirements.txt
+COPY ./app /app
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY ./myproject /code/app
 RUN mkdir -p /code/sqlitedb

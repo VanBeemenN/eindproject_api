@@ -89,6 +89,8 @@ def read_land(land_id: int, db: Session = Depends(get_db)):
     return land
 
 
+
+
 # Functie om de database-sessie op te halen
 def get_db():
     db = SessionLocal()

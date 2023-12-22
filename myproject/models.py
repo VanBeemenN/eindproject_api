@@ -24,3 +24,10 @@ class Festival(Base):
 
     land = relationship("Land", back_populates="festivals")
 
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, index=True)
+    hashed_password = Column(String)  # Hier wordt het gehashte wachtwoord opgeslagen
