@@ -23,3 +23,4 @@ class Festival(Base):
     land_id = Column(Integer, ForeignKey("landen.id"))
 
     land = relationship("Land", back_populates="festivals")
+

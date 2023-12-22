@@ -1,4 +1,7 @@
+from passlib.context import CryptContext
 from sqlalchemy.orm import Session
+
+from myproject import schemas, auth, models
 from myproject.models import Festival
 from myproject.models import Land
 from myproject.schemas import FestivalCreate, LandCreate
@@ -44,3 +47,11 @@ def get_landen(db: Session, skip: int = 0, limit: int = 100):
 
 def get_land(db: Session, land_id: int):
     return db.query(Land).filter(Land.id == land_id).first()
+
+def create_user(db: Session, user: schemas.UserCreate):
+    hashed_password = auth.get_password_hash(user.hashed_password)
+    db_user = models.User(email=user.email, hashed_password=hashed_password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user

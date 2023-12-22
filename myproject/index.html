@@ -1,10 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival Informatie</title>
 </head>
 <body>
-$END$
+    <h1>Festivals</h1>
+
+    <ul>
+        {% for festival in festivals %}
+            <li>{{ festival.naam }} - {{ festival.locatie }},{{ festival['start_datum'] }},{{ festival['eind_datum'] }}, {{ festival['land_id'] }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Voeg een nieuw festival toe</h2>
+
+    <form action="/add_festival" method="post">
+        <label for="naam">Naam:</label>
+        <input type="text" name="naam" required><br>
+
+        <label for="locatie">Locatie:</label>
+        <input type="text" name="locatie" required><br>
+
+        <label for="start_datum">Start Datum:</label>
+        <input type="text" name="start_datum" required><br>
+
+        <label for="eind_datum">Eind Datum:</label>
+        <input type="text" name="eind_datum" required><br>
+
+        <label for="land_id">Land Code:</label>
+        <input type="text" name="land_id" required><br>
+
+        <input type="submit" value="Voeg toe">
+    </form>
 </body>
 </html>
