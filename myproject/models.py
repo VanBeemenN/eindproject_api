@@ -2,7 +2,7 @@
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
-from myproject.database import Base  # De Base-klasse die u hebt gedefinieerd
+from database import Base  # De Base-klasse die u hebt gedefinieerd
 
 class Land(Base):
     __tablename__ = "landen"
@@ -24,3 +24,10 @@ class Festival(Base):
 
     land = relationship("Land", back_populates="festivals")
 
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, index=True)
+    hashed_password = Column(String)  # Hier wordt het gehashte wachtwoord opgeslagen
