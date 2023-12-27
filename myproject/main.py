@@ -2,12 +2,13 @@ import os
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
-from myproject import crud, models, schemas
-from myproject.database import SessionLocal, engine
-from myproject import crud
+from fastapi.responses import FileResponse
+from database import SessionLocal, engine
+import crud
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-
-from myproject.schemas import FestivalCreate
+from models import Base
+import models, schemas
+from fastapi.middleware.cors import CORSMiddleware
 
 if not os.path.exists('./sqlitedb'):
     os.mkdir('./sqlitedb')
@@ -17,9 +18,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 security = HTTPBasic()
 
-
 Base = declarative_base()
-
 
 
 def get_db():
@@ -28,6 +27,15 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this to your frontend domain in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 
 @app.get("/users/me")
@@ -44,7 +52,7 @@ def create_festival(festival: schemas.FestivalCreate, db: Session = Depends(get_
 
 ## GET /festivals/?skip=&limit=
 @app.get("/festivals", response_model=list[schemas.Festival])
-def read_festivals(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+async def read_festivals(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     festivals = crud.get_festivals(db, skip=skip, limit=limit)
     return festivals
 
@@ -89,6 +97,24 @@ def read_land(land_id: int, db: Session = Depends(get_db)):
     return land
 
 
+@app.get("/")
+def get_index():
+    index_path = os.path.join(os.path.dirname(__file__), "index.html")
+    return FileResponse(index_path)
+
+
+@app.post("/create_festival")
+async def create_festival(festival_data: schemas.FestivalCreate, db: Session = Depends(get_db)):
+    # Your code to handle the festival creation
+    # You can access the festival data using the festival_data variable
+    created_festival = crud.create_festival(db, festival_data=festival_data)
+
+    # For example, you might print the data for testing purposes
+    print("Received Festival Data:")
+    print(festival_data.dict())
+
+    # Return a response or raise an exception based on success or failure
+    return {"message": "Festival created successfully"}
 
 
 # Functie om de database-sessie op te halen

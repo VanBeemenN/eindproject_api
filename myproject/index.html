@@ -3,36 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Festival Informatie</title>
+    <title>FastAPI Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            margin-top: 200px;
+
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #responseMessage {
+            margin-top: 15px;
+            color: #333;
+        }
+
+
+    </style>
 </head>
 <body>
-    <h1>Festivals</h1>
+    <form id="festivalForm">
+        <h1>Enter Festival Information</h1>
+        <label for="naam">Name:</label>
+        <input type="text" id="naam" name="naam" required>
 
-    <ul>
-        {% for festival in festivals %}
-            <li>{{ festival.naam }} - {{ festival.locatie }},{{ festival['start_datum'] }},{{ festival['eind_datum'] }}, {{ festival['land_id'] }}</li>
-        {% endfor %}
-    </ul>
+        <label for="locatie">Location:</label>
+        <input type="text" id="locatie" name="locatie" required>
 
-    <h2>Voeg een nieuw festival toe</h2>
+        <label for="start_datum">Start Date:</label>
+        <input type="date" id="start_datum" name="start_datum" required>
 
-    <form action="/add_festival" method="post">
-        <label for="naam">Naam:</label>
-        <input type="text" name="naam" required><br>
+        <label for="eind_datum">End Date:</label>
+        <input type="date" id="eind_datum" name="eind_datum" required>
 
-        <label for="locatie">Locatie:</label>
-        <input type="text" name="locatie" required><br>
+        <button type="button" onclick="submitForm()">Submit</button>
 
-        <label for="start_datum">Start Datum:</label>
-        <input type="text" name="start_datum" required><br>
+        <div id="responseMessage"></div>
 
-        <label for="eind_datum">Eind Datum:</label>
-        <input type="text" name="eind_datum" required><br>
+        <div id="festivalsData">
+         <h2>Festival Data</h2>
+         <button type="button" onclick="getFestivals()">Get Festivals</button>
+         <pre id="festivalsResponse"></pre>
+     </div>
 
-        <label for="land_id">Land Code:</label>
-        <input type="text" name="land_id" required><br>
+    <div id="landenData">
+        <h2>Landen Data</h2>
+        <button type="button" onclick="getLanden()">Get Landen</button>
+        <pre id="landenResponse"></pre>
+    </div>
 
-        <input type="submit" value="Voeg toe">
+    <div id="userData">
+        <h2>User Data</h2>
+        <button type="button" onclick="getCurrentUser()">Get Current User</button>
+        <pre id="userResponse"></pre>
+    </div>
     </form>
+
+
+
+    <script>
+        function submitForm() {
+            const formData = {
+                naam: document.getElementById('naam').value,
+                locatie: document.getElementById('locatie').value,
+                start_datum: document.getElementById('start_datum').value,
+                eind_datum: document.getElementById('eind_datum').value,
+            };
+
+            fetch('http://localhost:8000/create_festival', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                document.getElementById('responseMessage').innerHTML = 'Festival created successfully!';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('responseMessage').innerHTML = 'Error creating festival.';
+            });
+        }
+
+        // Function to get festivals data
+        function getFestivals() {
+            fetch('http://localhost:8000/festivals')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Festivals Data:', data);
+                    document.getElementById('festivalsResponse').innerHTML = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get landen data
+        function getLanden() {
+            fetch('http://localhost:8000/landen')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Landen Data:', data);
+                    document.getElementById('landenResponse').innerHTML = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get current user data
+        function getCurrentUser() {
+            fetch('http://localhost:8000/users/me', {
+                headers: {
+                    'Authorization': 'Basic ' + btoa('your-username:your-password') // Replace with actual credentials
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User Data:', data);
+                    document.getElementById('userResponse').innerHTML = JSON.stringify(data, null, 2);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
 </body>
 </html>

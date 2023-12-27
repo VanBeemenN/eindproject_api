@@ -1,14 +1,14 @@
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from myproject import schemas, auth, models
-from myproject.models import Festival
-from myproject.models import Land
-from myproject.schemas import FestivalCreate, LandCreate
+import schemas, auth, models
+from models import Festival
+from models import Land
+from schemas import FestivalCreate, LandCreate
 
 
-def create_festival(db: Session, festival: FestivalCreate):
-    db_festival = Festival(**festival.dict())
+def create_festival(db: Session, festival_data: schemas.FestivalCreate):
+    db_festival = models.Festival(**festival_data.dict())
     db.add(db_festival)
     db.commit()
     db.refresh(db_festival)

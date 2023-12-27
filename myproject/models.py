@@ -2,7 +2,7 @@
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
-from myproject.database import Base  # De Base-klasse die u hebt gedefinieerd
+from database import Base  # De Base-klasse die u hebt gedefinieerd
 
 class Land(Base):
     __tablename__ = "landen"
