@@ -3,12 +3,11 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from fastapi.responses import FileResponse
-from database import SessionLocal, engine
-import crud
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from models import Base
-import models, schemas
 from fastapi.middleware.cors import CORSMiddleware
+
+import crud, models, schemas
+from database import SessionLocal, engine
 
 if not os.path.exists('./sqlitedb'):
     os.mkdir('./sqlitedb')
