@@ -1,11 +1,10 @@
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
+from models import Land, Festival
 import schemas, auth, models
-from models import Festival
-from models import Land
-from schemas import FestivalCreate, LandCreate
 
+from schemas import FestivalCreate, LandCreate
 
 def create_festival(db: Session, festival_data: schemas.FestivalCreate):
     db_festival = models.Festival(**festival_data.dict())
@@ -13,7 +12,6 @@ def create_festival(db: Session, festival_data: schemas.FestivalCreate):
     db.commit()
     db.refresh(db_festival)
     return db_festival
-
 
 
 def delete_festival(db: Session, festival_id: int):
@@ -47,6 +45,7 @@ def get_landen(db: Session, skip: int = 0, limit: int = 100):
 
 def get_land(db: Session, land_id: int):
     return db.query(Land).filter(Land.id == land_id).first()
+
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = auth.get_password_hash(user.hashed_password)
